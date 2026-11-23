@@ -1,0 +1,35 @@
+AutoBoot Box — Quick start
+=========================
+Use AutoBoot Box with its Windows controller app to automate boot resistance
+switching alongside an ISP tool such as F64, EasyJTAG, or a MIPI tester.
+Your existing tool handles device detection and supported repair operations.
+
+1. Use the x64 executable on 64-bit Windows; use x86 on 32-bit Windows.
+   Target: Windows 10/11. Python does not need to be installed.
+2. Follow the wiring instructions supplied with your AutoBoot Box.
+3. Install the supplied USB driver if Windows needs one.
+4. Run the EXE and connect the controller over USB. Connection is automatic.
+5. Choose Auto or Manual and 3, 5, or 10 seconds, then Start.
+   Stop releases all relays. Compact view uses the same connection.
+
+The output uses relay COM/NO contacts with 0, 10, 22 and 47 ohm branches.
+Follow the box instructions for all device-side connections.
+Verify wiring, target voltage/current, resistor power and relay ratings.
+Check every resistance and the all-off open circuit with a multimeter before use.
+The 0 ohm setting shorts the output pair.
+
+F64 Ultra is optional. When its log reports a successful UFS connection,
+the app holds the current resistance until Stop. The software is independent
+and is not affiliated with the tool brands mentioned here. Compatible firmware releases relays after six
+seconds without host commands. Verify this on your hardware before use.
+
+No administrator rights are required by the app. Theme preferences are stored
+under %LOCALAPPDATA%\AutoBootController. This app has no updater or telemetry.
+Check SHA256SUMS-windows-x64.txt or SHA256SUMS-windows-x86.txt against your
+downloaded file. An unsigned release can
+show a Windows reputation warning; publish with an Authenticode certificate
+for a verified publisher identity. Do not disable security software.
+
+AutoBoot Box hardware is required separately. Correct device wiring and ISP
+tool settings are still required; the box assists boot resistance switching.
+Purchase AutoBoot Box: https://www.facebook.com/

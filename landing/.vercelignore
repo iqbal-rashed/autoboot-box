@@ -1,0 +1,6 @@
+node_modules
+dist
+.env*
+.vercel
+README.md
+build.test.mjs
