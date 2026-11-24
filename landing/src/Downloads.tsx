@@ -5,11 +5,16 @@ import { fetchRelease } from "./releases.ts";
 
 export function Downloads() {
     const [release, setRelease] = useState<Release | null>(null);
-    const [status, setStatus] = useState("Checking available downloads…");
+    const [status, setStatus] = useState("Download the latest Windows release.");
+    const latestURL = `https://github.com/${config.releaseRepository}/releases/latest`;
     useEffect(() => {
         const controller = new AbortController();
         fetchRelease(config.releaseRepository, controller.signal)
             .then((data) => {
+                if (!data) {
+                    setStatus("No stable release is available yet. View GitHub Releases for updates.");
+                    return;
+                }
                 setRelease(data);
                 const count = Object.keys(data?.downloads || {}).length;
                 setStatus(
@@ -23,7 +28,7 @@ export function Downloads() {
             .catch((error) => {
                 if (!(error instanceof Error && error.name === "AbortError"))
                     setStatus(
-                        "Download information is unavailable. View GitHub Releases or try again shortly.",
+                        "Version details are unavailable. Download links still open the latest GitHub release.",
                     );
             });
         return () => controller.abort();
@@ -43,8 +48,8 @@ export function Downloads() {
                 </p>
                 <span className="release-label" id="release-version">
                     {release
-                        ? `Version ${release.version} · Windows`
-                        : "Windows release"}
+                        ? `Latest · v${release.version} · Windows`
+                        : "Latest release · Windows"}
                 </span>
             </div>
             <div className="download-panel">
@@ -83,8 +88,7 @@ export function Downloads() {
                             <a
                                 className={`button ${arch === "x64" ? "primary" : "secondary"} download`}
                                 id={`download-${arch}`}
-                                href={file?.url}
-                                aria-disabled={!file || undefined}
+                                href={`${latestURL}/download/AutoBootController-windows-${arch}.exe`}
                                 aria-label={`Download AutoBoot Controller for Windows ${arch === "x64" ? "64" : "32"}-bit`}
                             >
                                 Download <span aria-hidden="true">↓</span>
@@ -97,10 +101,7 @@ export function Downloads() {
                         Check Settings → System → About for your system type.
                     </span>
                     <a
-                        href={
-                            release?.notesURL ||
-                            `https://github.com/${config.releaseRepository}/releases`
-                        }
+                        href={latestURL}
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -124,13 +125,13 @@ export function Downloads() {
                                   ([arch, file]) => (
                                       <Fragment key={arch}>
                                           <strong>
-                                              Windows {arch} — SHA-256
+                                              Windows {arch} · v{release?.version} — SHA-256
                                           </strong>
                                           <code>{file.sha256}</code>
                                       </Fragment>
                                   ),
                               )
-                            : "Checksums appear when a release is available."}
+                            : "Open GitHub Releases for the latest checksums while version details are unavailable."}
                     </div>
                 </details>
                 <p className="signature-note">
@@ -148,7 +149,7 @@ export function Downloads() {
                     <p>
                         Open{" "}
                         <a
-                            href={`https://github.com/${config.releaseRepository}/releases`}
+                            href={latestURL}
                         >
                             GitHub Releases
                         </a>{" "}

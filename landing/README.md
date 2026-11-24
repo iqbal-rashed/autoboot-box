@@ -47,8 +47,12 @@ domain. Production builds are indexable. Local and preview builds use noindex.
 `site.config.json` points to `iqbal-rashed/autoboot-box`. The app reads the latest
 stable public GitHub Release and displays the x64/x86 EXE URLs, file sizes,
 SHA-256 hashes, and notices. It needs no browser token or site rebuild for new
-releases. Before the first release, download buttons stay disabled. A GitHub
-Releases link remains available if the API is unavailable or rate-limited.
+releases. Download buttons use GitHub's `/releases/latest/download/` URLs, so
+they follow the release marked Latest even without JavaScript or if the API is
+unavailable or rate-limited. The release notes link uses `/releases/latest`.
+Each new stable release must include `AutoBootController-windows-x64.exe` and
+`AutoBootController-windows-x86.exe` with these same asset names. No manual
+version or link updates are needed on the website.
 
 The desktop/firmware build and public-release publisher remain in the separate
 private project. Their source is not part of this application.
